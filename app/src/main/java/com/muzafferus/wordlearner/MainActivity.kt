@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.muzafferus.wordlearner.databinding.ActivityMainBinding
 import com.muzafferus.wordlearner.ui.article.ArticlesActivity
+import com.muzafferus.wordlearner.ui.video.VideoActivity
 import com.muzafferus.wordlearner.ui.word.WordActivity
 
 class MainActivity : AppCompatActivity() {
@@ -23,6 +24,9 @@ class MainActivity : AppCompatActivity() {
         }
         binding.buttonArticle.setOnClickListener {
             startActivity(Intent(this, ArticlesActivity::class.java))
+        }
+        binding.buttonVideo.setOnClickListener {
+            startActivity(Intent(this, VideoActivity::class.java))
         }
     }
 }

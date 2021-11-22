@@ -2,7 +2,6 @@ package com.muzafferus.wordlearner.db.dao
 
 import androidx.room.*
 import com.muzafferus.wordlearner.model.ArticleModel
-import com.muzafferus.wordlearner.model.WordModel
 import kotlinx.coroutines.flow.Flow
 
 @Dao

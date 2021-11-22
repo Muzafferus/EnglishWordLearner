@@ -1,21 +1,21 @@
-package com.muzafferus.wordlearner.db.database
+package com.muzafferus.videolearner.db.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.muzafferus.wordlearner.db.dao.WordDao
-import com.muzafferus.wordlearner.model.WordModel
+import com.muzafferus.wordlearner.db.dao.VideoDao
+import com.muzafferus.wordlearner.model.VideoModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@Database(entities = arrayOf(WordModel::class), version = 1, exportSchema = false)
-abstract class WordRoomDatabase : RoomDatabase() {
+@Database(entities = arrayOf(VideoModel::class), version = 1, exportSchema = false)
+abstract class VideoRoomDatabase : RoomDatabase() {
 
-    abstract fun wordDao(): WordDao
+    abstract fun videoDao(): VideoDao
 
-    private class WordDatabaseCallback(
+    private class VideoDatabaseCallback(
         private val scope: CoroutineScope
     ) : RoomDatabase.Callback() {
 
@@ -23,9 +23,11 @@ abstract class WordRoomDatabase : RoomDatabase() {
             super.onCreate(db)
             INSTANCE?.let { database ->
                 scope.launch {
-                    val wordDao = database.wordDao()
+                    val videoDao = database.videoDao()
+
                     // Delete all content here.
-                    wordDao.deleteAll()
+                    videoDao.deleteAll()
+
                 }
             }
         }
@@ -33,21 +35,21 @@ abstract class WordRoomDatabase : RoomDatabase() {
 
     companion object {
         @Volatile
-        private var INSTANCE: WordRoomDatabase? = null
+        private var INSTANCE: VideoRoomDatabase? = null
 
         fun getDatabase(
             context: Context,
             scope: CoroutineScope
-        ): WordRoomDatabase {
+        ): VideoRoomDatabase {
             // if the INSTANCE is not null, then return it,
             // if it is, then create the database
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    WordRoomDatabase::class.java,
-                    "word_database"
+                    VideoRoomDatabase::class.java,
+                    "video_database"
                 )
-                    .addCallback(WordDatabaseCallback(scope))
+                    .addCallback(VideoDatabaseCallback(scope))
                     .build()
                 INSTANCE = instance
                 instance

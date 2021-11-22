@@ -17,6 +17,8 @@
         <activity android:name=".ui.word.NewWordActivity" />
         <activity android:name=".ui.article.ArticlesActivity" />
         <activity android:name=".ui.article.NewArticleActivity" />
+        <activity android:name=".ui.video.VideoActivity" />
+        <activity android:name=".ui.video.NewVideoActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

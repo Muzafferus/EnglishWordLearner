@@ -9,7 +9,7 @@ data class WordModel(
     @PrimaryKey(autoGenerate = true)
     val id: Long?,
     @ColumnInfo(name = "word")
-    var word:String,
+    var word: String,
     @ColumnInfo(name = "type")
-    var type:Int
+    var type: Int
 )
