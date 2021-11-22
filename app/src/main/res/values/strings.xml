@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">WordLearner</string>
+
+    <string name="hint_word">Word…</string>
+    <string name="button_save">Save</string>
+    <string name="empty_not_saved">Word not saved because it is empty.</string>
+    <string name="add_word">Add word</string>
+    <string name="hint_article_name">Name</string>
+    <string name="hint_article_description">Description</string>
+    <string name="uncategorized">UNCATEGORIZED</string>
+    <string name="not_wont_learn">NOT WONT LEARN</string>
+    <string name="wont_learn">WONT LEARN</string>
+    <string name="learned">LEARNED</string>
+
+</resources>
