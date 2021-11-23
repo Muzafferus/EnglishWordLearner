@@ -64,19 +64,6 @@ class ArticleViewModel(private val repository: ArticleRepository) : ViewModel() 
             .sortedBy { (_, value) -> -value }
             .toMap()
 
-        //UNCATEGORIZED
-        val uncategorizedWord: MutableMap<String, Int> = mutableMapOf()
-
-        for (word in learnWordList.filter { it.type == WordTypes.UNCATEGORIZED }) {
-            val key = word.word.lowercase(Locale.getDefault())
-            val count = uncategorizedWord[key]
-            uncategorizedWord[key] = if (uncategorizedWord[key] != null) count!!.plus(1) else 1
-        }
-
-        val shortedUncategorizedWordMap = uncategorizedWord.toList()
-            .sortedBy { (_, value) -> -value }
-            .toMap()
-
         //NOT_WONT_LEARN
         val notWontLearnWord: MutableMap<String, Int> = mutableMapOf()
 
@@ -118,7 +105,6 @@ class ArticleViewModel(private val repository: ArticleRepository) : ViewModel() 
 
         return calculate(
             shortedArticleMap,
-            shortedUncategorizedWordMap.keys,
             shortedNotWontLearnWordMap.keys,
             shortedWontLearnWordMap.keys,
             shortedLearnedWordMap.keys
@@ -127,23 +113,20 @@ class ArticleViewModel(private val repository: ArticleRepository) : ViewModel() 
 
     private fun calculate(
         shortedArticleMap: Map<String, Int>,
-        uncategorizedWordList: Set<String>,
         notWontLearnWordList: Set<String>,
         wontLearnWordList: Set<String>,
         learnedWordList: Set<String>
     ): Int {
         val articles = ArrayList(shortedArticleMap.toList())
-        val uncategorizedWords = ArrayList(uncategorizedWordList.toList())
         val notWontLearnWords = ArrayList(notWontLearnWordList.toList())
         val wontLearnWords = ArrayList(wontLearnWordList.toList())
         val learnedWords = ArrayList(learnedWordList.toList())
 
-        val uncategorizedPercent = getPercent(articles, uncategorizedWords)
         val notWontLearnPercent = getPercent(articles, notWontLearnWords)
         val wontLearnPercent = getPercent(articles, wontLearnWords)
         val learnedPercent = getPercent(articles, learnedWords)
 
-        return (wontLearnPercent * 2) + learnedPercent - notWontLearnPercent + (uncategorizedPercent / 2)
+        return (wontLearnPercent * 2) + learnedPercent - notWontLearnPercent
     }
 
     private fun getPercent(articles: ArrayList<Pair<String, Int>>, words: ArrayList<String>): Int {
@@ -162,7 +145,7 @@ class ArticleViewModel(private val repository: ArticleRepository) : ViewModel() 
     }
 
 
-    private fun getWordList(text: String): List<String> {
+    fun getWordList(text: String): List<String> {
         val re = Regex("[^A-Za-z0-9 ]")
         return re.replace(text, "").split(" ")
     }

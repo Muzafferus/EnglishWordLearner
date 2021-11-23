@@ -88,7 +88,7 @@ class WordActivity : AppCompatActivity() {
         if (requestCode == newWordActivityRequestCode && resultCode == Activity.RESULT_OK) {
             intentData?.getStringExtra(NewWordActivity.EXTRA_REPLY)?.let { reply ->
                 val word = WordModel(
-                    null, reply, when (intentData.getIntExtra(NewWordActivity.EXTRA_INDEX, -1)) {
+                    null, reply.trim().lowercase(), when (intentData.getIntExtra(NewWordActivity.EXTRA_INDEX, -1)) {
                         NOT_WONT_LEARN -> WordTypes.NOT_WONT_LEARN
                         WONT_LEARN -> WordTypes.WONT_LEARN
                         LEARNED -> WordTypes.LEARNED

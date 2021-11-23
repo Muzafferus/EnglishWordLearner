@@ -13,6 +13,8 @@ import com.muzafferus.wordlearner.MainApplication
 import com.muzafferus.wordlearner.R
 import com.muzafferus.wordlearner.databinding.ActivityArticlesBinding
 import com.muzafferus.wordlearner.model.ArticleModel
+import com.muzafferus.wordlearner.model.WordModel
+import com.muzafferus.wordlearner.typesdef.WordTypes
 import com.muzafferus.wordlearner.ui.read.ReadActivity
 import com.muzafferus.wordlearner.ui.word.WordViewModel
 import com.muzafferus.wordlearner.ui.word.WordViewModelFactory
@@ -96,6 +98,11 @@ class ArticlesActivity : AppCompatActivity() {
 
             val article = ArticleModel(null, articleName, articleDescription)
             articleViewModel.insert(article)
+
+            getWords(article).forEach {
+                word -> wordViewModel.insert(WordModel(null, word.trim().lowercase(), WordTypes.UNCATEGORIZED))
+            }
+
         } else {
             Toast.makeText(
                 applicationContext,
@@ -103,5 +110,10 @@ class ArticlesActivity : AppCompatActivity() {
                 Toast.LENGTH_LONG
             ).show()
         }
+    }
+
+    private fun getWords(article: ArticleModel): ArrayList<String> {
+       val wordList = articleViewModel.getWordList(article.description)
+        return ArrayList(wordList)
     }
 }
