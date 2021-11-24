@@ -72,6 +72,10 @@ class ArticlesActivity : AppCompatActivity() {
         if (name != "" && id != -1L && description != "") {
             val editedArticle = ArticleModel(id, name, description)
             articleViewModel.update(editedArticle)
+
+            getWords(editedArticle).forEach { word ->
+                wordViewModel.insert(WordModel(word.trim().lowercase(), WordTypes.UNCATEGORIZED))
+            }
         }
     }
 
@@ -99,8 +103,8 @@ class ArticlesActivity : AppCompatActivity() {
             val article = ArticleModel(null, articleName, articleDescription)
             articleViewModel.insert(article)
 
-            getWords(article).forEach {
-                word -> wordViewModel.insert(WordModel( word.trim().lowercase(), WordTypes.UNCATEGORIZED))
+            getWords(article).forEach { word ->
+                wordViewModel.insert(WordModel(word.trim().lowercase(), WordTypes.UNCATEGORIZED))
             }
 
         } else {
@@ -113,7 +117,7 @@ class ArticlesActivity : AppCompatActivity() {
     }
 
     private fun getWords(article: ArticleModel): ArrayList<String> {
-       val wordList = articleViewModel.getWordList(article.description)
+        val wordList = articleViewModel.getWordList(article.description)
         return ArrayList(wordList)
     }
 }
