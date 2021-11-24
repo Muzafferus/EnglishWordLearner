@@ -34,11 +34,11 @@ class NewWordActivity : AppCompatActivity() {
                     setResult(Activity.RESULT_CANCELED, replyIntent)
                 }
                 else -> {
-                    val id = intent.getLongExtra(EXTRA_ID, -1L)
+                    val isEdit = intent.getBooleanExtra(EXTRA_EDIT, false)
                     val index: Int =
                         binding.wordTypeGroup.indexOfChild(findViewById(binding.wordTypeGroup.checkedRadioButtonId))
                     val word = binding.editWord.text.toString()
-                    if (id == -1L) {
+                    if (!isEdit) {
                         replyIntent.putExtra(EXTRA_REPLY, word)
                         replyIntent.putExtra(EXTRA_INDEX, index)
                         setResult(Activity.RESULT_OK, replyIntent)
@@ -46,7 +46,7 @@ class NewWordActivity : AppCompatActivity() {
                         val intent = Intent(this@NewWordActivity, WordActivity::class.java)
                         intent.putExtra(EXTRA_REPLY, word)
                         intent.putExtra(EXTRA_INDEX, index)
-                        intent.putExtra(EXTRA_ID, id)
+                        intent.putExtra(EXTRA_EDIT, true)
 
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                         startActivity(intent)
@@ -62,9 +62,9 @@ class NewWordActivity : AppCompatActivity() {
 
     private fun checkEdit() {
         val word = intent.getStringExtra(EXTRA_REPLY) ?: ""
-        val id = intent.getLongExtra(EXTRA_ID, -1L)
+        val isEdit = intent.getBooleanExtra(EXTRA_EDIT, false)
         val index = intent.getIntExtra(EXTRA_INDEX, -1)
-        if (word != "" && id != -1L && index != -1) {
+        if (word != "" && isEdit && index != -1) {
             binding.editWord.setText(word)
             binding.wordTypeGroup.check(
                 when (index) {
@@ -77,7 +77,7 @@ class NewWordActivity : AppCompatActivity() {
 
             binding.delete.visibility = View.VISIBLE
             binding.delete.setOnClickListener {
-                wordViewModel.delete(id)
+                wordViewModel.delete(word)
                 onBackPressed()
             }
         }
@@ -86,6 +86,6 @@ class NewWordActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_REPLY = "com.muzafferus.wordlearner.REPLY"
         const val EXTRA_INDEX = "com.muzafferus.wordlearner.INDEX"
-        const val EXTRA_ID = "com.muzafferus.wordlearner.ID"
+        const val EXTRA_EDIT = "com.muzafferus.wordlearner.EDIT"
     }
 }

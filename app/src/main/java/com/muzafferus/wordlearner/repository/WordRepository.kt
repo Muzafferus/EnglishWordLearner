@@ -30,7 +30,7 @@ class WordRepository(private val wordDao: WordDao) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun delete(id: Long) {
-        wordDao.deleteById(id)
+    suspend fun delete(word: String) {
+        wordDao.deleteByWord(word)
     }
 }

@@ -6,8 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "word_table")
 data class WordModel(
-    @PrimaryKey(autoGenerate = true)
-    val id: Long?,
+    @PrimaryKey
     @ColumnInfo(name = "word")
     var word: String,
     @ColumnInfo(name = "type")

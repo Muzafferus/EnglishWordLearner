@@ -13,7 +13,6 @@ import com.muzafferus.wordlearner.R
 import com.muzafferus.wordlearner.databinding.ActivityWordBinding
 import com.muzafferus.wordlearner.model.WordModel
 import com.muzafferus.wordlearner.typesdef.WordTypes
-import com.muzafferus.wordlearner.ui.article.NewArticleActivity
 
 class WordActivity : AppCompatActivity() {
 
@@ -43,7 +42,7 @@ class WordActivity : AppCompatActivity() {
                 val intent = Intent(this@WordActivity, NewWordActivity::class.java)
                 intent.putExtra(NewWordActivity.EXTRA_REPLY, word.word)
                 intent.putExtra(NewWordActivity.EXTRA_INDEX, word.type)
-                intent.putExtra(NewArticleActivity.EXTRA_ID, word.id)
+                intent.putExtra(NewWordActivity.EXTRA_EDIT, true)
                 startActivity(intent)
             }
         })
@@ -65,13 +64,13 @@ class WordActivity : AppCompatActivity() {
 
     private fun checkEdit() {
         val word = intent.getStringExtra(NewWordActivity.EXTRA_REPLY) ?: ""
-        val id = intent.getLongExtra(NewWordActivity.EXTRA_ID, -1)
+        val isEdit = intent.getBooleanExtra(NewWordActivity.EXTRA_EDIT, false)
         val index = intent.getIntExtra(NewWordActivity.EXTRA_INDEX, -1)
 
-        if (word != "" && id != -1L && index != -1) {
+        if (word != "" && isEdit && index != -1) {
             wordViewModel.update(
                 WordModel(
-                    id, word, when (index) {
+                    word, when (index) {
                         NOT_WONT_LEARN -> WordTypes.NOT_WONT_LEARN
                         WONT_LEARN -> WordTypes.WONT_LEARN
                         LEARNED -> WordTypes.LEARNED
@@ -88,7 +87,8 @@ class WordActivity : AppCompatActivity() {
         if (requestCode == newWordActivityRequestCode && resultCode == Activity.RESULT_OK) {
             intentData?.getStringExtra(NewWordActivity.EXTRA_REPLY)?.let { reply ->
                 val word = WordModel(
-                    null, reply.trim().lowercase(), when (intentData.getIntExtra(NewWordActivity.EXTRA_INDEX, -1)) {
+                    reply.trim().lowercase(),
+                    when (intentData.getIntExtra(NewWordActivity.EXTRA_INDEX, -1)) {
                         NOT_WONT_LEARN -> WordTypes.NOT_WONT_LEARN
                         WONT_LEARN -> WordTypes.WONT_LEARN
                         LEARNED -> WordTypes.LEARNED

@@ -100,7 +100,7 @@ class ArticlesActivity : AppCompatActivity() {
             articleViewModel.insert(article)
 
             getWords(article).forEach {
-                word -> wordViewModel.insert(WordModel(null, word.trim().lowercase(), WordTypes.UNCATEGORIZED))
+                word -> wordViewModel.insert(WordModel( word.trim().lowercase(), WordTypes.UNCATEGORIZED))
             }
 
         } else {
